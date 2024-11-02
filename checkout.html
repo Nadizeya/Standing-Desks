@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-Commerce</title>
+    <!-- Fonts import -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/checkout.css" />
+
+    <!-- Font awesome Import -->
+    <script
+      src="https://kit.fontawesome.com/21a4bfb2b5.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <h1 class="logo">
+        <a href="/index.html" class="logo-link">Standing Desks</a>
+      </h1>
+      <nav class="navbar">
+        <ul class="nav-links">
+          <li><a href="/index.html">Home</a></li>
+          <li><a href="/products.html">Rising Desks</a></li>
+          <li><a href="/contact.html">Contact Us</a></li>
+          <li><a href="/health.html">Health Benefit</a></li>
+          <li>
+            <a href="/checkout.html">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </a>
+          </li>
+        </ul>
+        <div class="hamburger">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+      </nav>
+      <script>
+        const hamburger = document.querySelector(".hamburger");
+        const navbar = document.querySelector(".navbar");
+
+        hamburger.addEventListener("click", () => {
+          console.log("Hello");
+          console.log(navbar.classList);
+          navbar.classList.toggle("active");
+        });
+      </script>
+    </header>
+    <main>
+      <section>
+        <h2>Your Items</h2>
+        <div class="row1">
+          <div class="container">
+            <div id="cart-items"></div>
+          </div>
+          <div class="cost">
+            <h2>Total Summary</h2>
+            <p>Order Cost: <span id="order-cost"> $0.00</span></p>
+            <p>Delivery Cost: <span id="delivery-cost"> $5.00</span></p>
+            <p>Total Cost: <span id="total-cost"> $5.00</span></p>
+            <button type="button" id="showModalButton" class="btn">
+              Checkout
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+    <div id="successModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Thank You!</h2>
+        <p>Your order is submitted successfully.</p>
+      </div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const showModalButton = document.getElementById("showModalButton");
+        const modal = document.getElementById("successModal");
+        const closeModalBtn = document.querySelector(".close-btn");
+
+        showModalButton.addEventListener("click", () => {
+          console.log("hello");
+          modal.style.display = "flex";
+        });
+
+        closeModalBtn.addEventListener("click", () => {
+          modal.style.display = "none";
+        });
+
+        window.addEventListener("click", (event) => {
+          if (event.target === modal) {
+            modal.style.display = "none";
+          }
+        });
+      });
+    </script>
+    <footer>
+      <div class="footer-row">
+        <div class="address">
+          <h3>Address</h3>
+          <p>Building 101, central avenue la - 902722 united states</p>
+        </div>
+        <div class="helpful-links">
+          <h3>Health Benefits</h3>
+          <a
+            href="https://www.chairoffice.co.uk/blog/8-incredible-benefits-of-standing-desks/"
+            ><p>Why choose standing desks?</p></a
+          >
+          <a
+            href="https://techehs.com/blog/do-standing-desks-actually-increase-productivity"
+            ><p>Standing desks for productivity</p></a
+          >
+          <a
+            href="https://www.forbes.com/advisor/in/credit-card/advantages-of-online-shopping/"
+            ><p>Online stores benefits</p></a
+          >
+        </div>
+        <div class="partners">
+          <h3>Partners</h3>
+          <p>IKEA</p>
+          <p>Home Pro</p>
+          <p>Uplift Desks</p>
+          <p>SteelSeries</p>
+        </div>
+        <div class="socialmedia">
+          <h3>Social Media</h3>
+          <div class="socialmedia-links">
+            <a
+              href="https://www.facebook.com"
+              target="_blank"
+              aria-label="Facebook"
+            >
+              <i class="fa-brands fa-facebook"></i>
+            </a>
+            <a
+              href="https://www.instagram.com"
+              target="_blank"
+              aria-label="Instagram"
+            >
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a
+              href="https://www.twitter.com"
+              target="_blank"
+              aria-label="Twitter"
+            >
+              <i class="fa-brands fa-twitter"></i>
+            </a>
+            <a
+              href="https://www.tiktok.com"
+              target="_blank"
+              aria-label="TikTok"
+            >
+              <i class="fa-brands fa-tiktok"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <p class="copy-right">&copy; 2024 Standing Desk. All rights reserved.</p>
+    </footer>
+
+    <script>
+      function displayCartItems() {
+        const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+        const cartContainer = document.getElementById("cart-items");
+        const orderCostElement = document.getElementById("order-cost");
+        const totalCostElement = document.getElementById("total-cost");
+        cartContainer.innerHTML = "";
+        let totalCost = 0;
+
+        cartItems.forEach((item, index) => {
+          const itemDiv = document.createElement("div");
+          itemDiv.classList.add("cart-item");
+          const price = parseFloat(item.price);
+
+          itemDiv.innerHTML = `
+                  <img src="${item.image}" alt="${item.name}">
+                  <div>
+                      <h3>${item.name}</h3>
+                      <p>Price: ${price.toFixed(2)}</p>
+                      <p>Quantity: 1</p>
+                      <button class="remove-item" data-index="${index}">Remove</button>
+                  </div>
+              `;
+          cartContainer.appendChild(itemDiv);
+          totalCost += price;
+        });
+
+        orderCostElement.textContent = `$${totalCost}`;
+        totalCostElement.textContent = `$${totalCost + 5}`;
+
+        document.querySelectorAll(".remove-item").forEach((button) => {
+          button.addEventListener("click", () => {
+            const index = button.getAttribute("data-index");
+            removeFromCart(index);
+          });
+        });
+      }
+
+      function removeFromCart(index) {
+        const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+        cartItems.splice(index, 1);
+        localStorage.setItem("cart", JSON.stringify(cartItems));
+        displayCartItems();
+      }
+
+      displayCartItems();
+    </script>
+  </body>
+</html>
